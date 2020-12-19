@@ -15,8 +15,8 @@ use Brianvarskonst\Nikas\Provider\ThumbnailProvider;
 use Inpsyde\App\App;
 use Inpsyde\App\Container;
 
-if (is_readable(__DIR__ . '/vendor/autoload.php')) {
-    require __DIR__ . '/vendor/autoload.php';
+if (is_file(dirname(__DIR__) . '/vendor/autoload.php')) {
+    require_once dirname(__DIR__) . '/vendor/autoload.php';
 }
 
 App::new(new Container())->boot();
