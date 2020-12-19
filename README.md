@@ -1,5 +1,5 @@
-# Brianvarskonst Nikas
-
+# Nikas WordPress Theme
+ 
 TODO: Describe what this package is all about
 
 ## Table Of Contents
