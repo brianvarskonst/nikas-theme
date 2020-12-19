@@ -1,0 +1,37 @@
+{
+    "name": "brianvarskonst/nikas",
+    "type": "wordpress-theme",
+    "description": "TODO: Describe what this package is all about",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brianvarskonst",
+            "email": "brianvarskonst@example.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "inpsyde/assets": "^2.1",
+        "inpsyde/wp-app-container": "^1.2"
+    },
+    "require-dev": {
+        "inpsyde/php-coding-standards": "1.0.0-RC.1",
+        "symfony/var-dumper": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Brianvarskonst\\Nikas\\": "src/"
+        }
+    },
+    "scripts": {
+        "cs": "@php ./vendor/bin/phpcs -s",
+        "cs:cbf": "@php ./vendor/bin/phpcbf"
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}

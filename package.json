@@ -1,0 +1,37 @@
+{
+    "name": "nikas",
+    "version": "1.0.0",
+    "description": "Awesome WP Theme",
+    "author": "Brianvarskonst",
+    "license": "MIT",
+    "keywords": [
+        "WordPress",
+        "Theme",
+        "Nikas"
+    ],
+    "dependencies": {
+        "bootstrap": "4.4.0"
+    },
+    "devDependencies": {
+        "@symfony/webpack-encore": "^0.27.0",
+        "@wordpress/dependency-extraction-webpack-plugin": "^1.0.1",
+        "autoprefixer": "^9.7.1",
+        "babel-eslint": "^10.0.1",
+        "browser-sync": "^2.26.7",
+        "browser-sync-webpack-plugin": "^2.2.2",
+        "eslint": "^5.12.1",
+        "eslint-config-inpsyde": "^1.9.0",
+        "eslint-loader": "^2.1.2",
+        "file-loader": "^4.3.0",
+        "fork-ts-checker-webpack-plugin": "0.4.1",
+        "node-sass": "^4.11.0",
+        "postcss-loader": "^3.0.0",
+        "sass-loader": "7.0.1",
+        "ts-loader": "5.3.0",
+        "typescript": "^3.2.4"
+    },
+    "scripts": {
+        "build": "encore production",
+        "watch": "encore dev --watch"
+    }
+}

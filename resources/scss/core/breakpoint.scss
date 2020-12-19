@@ -1,0 +1,52 @@
+//  Mixins for breakpoints. ************************************
+//
+
+@mixin breakpoint($point, $value: 0) {
+  @if $point == desktop {
+    @media (min-width: $breakpoint__desktop) {
+      @content;
+    }
+  } @else if $point == tablet-landscape {
+    @media (min-width: $breakpoint__tablet-landscape) {
+      @content;
+    }
+  } @else if $point == tablet {
+    @media (min-width: $breakpoint__tablet) {
+      @content;
+    }
+  } @else if $point == max-tablet {
+    @media (max-width: $breakpoint__tablet - 1px) {
+      @content;
+    }
+  } @else if $point == max-tablet-landscape {
+    @media (max-width: $breakpoint__tablet-landscape - 1px) {
+      @content;
+    }
+  } @else if $point == smartphone-landscape {
+    @media (min-width: $breakpoint__smartphone-landscape) and (max-width: $breakpoint__tablet - 1px) {
+      @content;
+    }
+  }  @else {
+    @media ($point: $value) {
+      @content;
+    }
+  }
+}
+
+@mixin between-breakpoints($min, $max) {
+  @media (min-width: $min) and (max-width: $max - 1) {
+    @content;
+  }
+}
+
+@mixin max-breakpoint($max) {
+  @media (max-width: $max) {
+    @content;
+  }
+}
+
+@mixin min-breakpoint($min) {
+  @media (min-width: $min) {
+    @content;
+  }
+}

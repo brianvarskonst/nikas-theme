@@ -1,0 +1,43 @@
+// Colors
+$color__text: #000;
+
+// Sizes ***********************************************************************
+
+// Breakpoints
+$breakpoint__desktop: 1200px;
+$breakpoint__tablet-landscape: 992px;
+$breakpoint__tablet: 768px;
+$breakpoint__smartphone-landscape: 576px;
+$breakpoint__smartphone: 375px;
+$breakpoint__zero: 0px;
+
+// If the above variables change,
+// Bootstrap's variables will be overridden below.
+$grid-breakpoints: (
+        xs: $breakpoint__zero,
+        sm: $breakpoint__smartphone-landscape,
+        md: $breakpoint__tablet,
+        lg: $breakpoint__tablet-landscape,
+        xl: $breakpoint__desktop
+);
+
+// base spacing
+$spacing: 1rem;
+$spacing__s: 0.5rem;
+$spacing__m: 1.5rem;
+$spacing__l: 2rem;
+$spacing__xl: 2.5rem;
+
+$spacing__layout-vertical: 6.25rem; //100px
+$spacing__layout-vertical--half: 3.125rem; //50px
+$spacing__banner: 7.1875rem;
+
+// Overriding grid spacing with 1px from 15px to 16px = 1rem;
+$grid-gutter-width: $spacing__l;
+
+// dimensions
+$height--main-menu: 73px;
+$height--main-menu-mobile: 63px;
+$max-width--wide-elements: 910px;
+$max-width--featurette-container: $max-width--wide-elements;
+$max-width-mobile--featurette-and-hero: 500px;
