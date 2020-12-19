@@ -6,7 +6,6 @@ TODO: Describe what this package is all about
 
 * [Installation](#installation)
 * [Usage](#usage)
-* [Crafted by Inpsyde](#crafted-by-inpsyde)
 * [License](#license)
 * [Contributing](#contributing)
 
