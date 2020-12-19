@@ -20,17 +20,12 @@ $ composer require brianvarskonst/nikas
 
 ## Usage
 
-`// Todo`
-
-## Crafted by Inpsyde
-
-The team at [Inpsyde](https://inpsyde.com) is engineering the Web since 2006.
 
 ## License
 
-Copyright (c) 2020 Brianvarskonst, Brianvarskonst
+Copyright (c) 2020 Brianvarskonst
 
-Good news, this plugin is free for everyone! Since it's released under the [MIT License](LICENSE) you can use it free of charge on your personal or commercial website.
+Good news, this theme is free for everyone! Since it's released under the [MIT License](LICENSE) you can use it free of charge on your personal or commercial website.
 
 ## Contributing
 
