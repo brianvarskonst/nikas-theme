@@ -6,6 +6,7 @@ namespace Brianvarskonst\Nikas;
 
 use Brianvarskonst\Nikas\Provider\AssetProvider;
 use Brianvarskonst\Nikas\Provider\BackwardCompatibilityProvider;
+use Brianvarskonst\Nikas\Provider\CategoryImageProvider;
 use Brianvarskonst\Nikas\Provider\DisableCoreFunctionalityProvider;
 use Brianvarskonst\Nikas\Provider\NavigationProvider;
 use Brianvarskonst\Nikas\Provider\TextdomainProvider;
@@ -32,5 +33,6 @@ add_action(
         $app->addProvider(new TextdomainProvider());
         $app->addProvider(new NavigationProvider());
         $app->addProvider(new ThumbnailProvider());
+        $app->addProvider(new CategoryImageProvider());
     }
 );
