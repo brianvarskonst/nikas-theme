@@ -6,11 +6,11 @@ namespace Brianvarskonst\Nikas\Category\Image;
 
 class TaxonomyField
 {
-    private string $placeholderImage;
+    private CategoryImageUrlProvider $imageProvider;
 
-    public function __construct(string $placeholderImage)
+    public function __construct(CategoryImageUrlProvider $imageProvider)
     {
-        $this->placeholderImage = $placeholderImage;
+        $this->imageProvider = $imageProvider;
     }
 
     public function add()
@@ -41,10 +41,16 @@ class TaxonomyField
             wp_enqueue_script('thickbox');
         }
 
-        if ($this->taxonomyImageUrl($taxonomy->term_id, null, true) === $this->placeholderImage) {
+        $taxonomyImage = $this->imageProvider->provide(
+            $taxonomy->term_id,
+            null,
+            true
+        );
+
+        if ($taxonomyImage === $this->imageProvider->placeholder()) {
             $image_url = "";
         } else {
-            $image_url = $this->taxonomyImageUrl($taxonomy->term_id, null, true);
+            $image_url = $taxonomyImage;
         }
 
         echo '
@@ -53,7 +59,7 @@ class TaxonomyField
                 <label for="zci_taxonomy_image">' . __('Image', 'categories-images') . '</label>
             </th>
             <td>
-                <img class="zci-taxonomy-image" src="' . $this->taxonomyImageUrl($taxonomy->term_id, 'medium', true) . '"/>
+                <img class="zci-taxonomy-image" src="' . $this->imageProvider->provide($taxonomy->term_id, 'medium', true) . '"/>
                 
                 <br/>
                 
@@ -66,47 +72,5 @@ class TaxonomyField
                 <button class="z_remove_image_button button">' . __('Remove image', 'categories-images') . '</button>
             </td>
         </tr>';
-    }
-
-    private  function taxonomyImageUrl($term_id = NULL, $size = 'full', $return_placeholder = false)
-    {
-        if (!$term_id) {
-            if (is_category()) {
-                $term_id = get_query_var('cat');
-            } elseif (is_tag()) {
-                $term_id = get_query_var('tag_id');
-            } elseif (is_tax()) {
-                $current_term = get_term_by(
-                    'slug',
-                    get_query_var('term'),
-                    get_query_var('taxonomy')
-                );
-
-                $term_id = $current_term->term_id;
-            }
-        }
-
-        $taxonomy_image_url = get_option("taxonomy_image{$term_id}");
-
-        if (!empty($taxonomy_image_url)) {
-            $attachment_id = $this->getAttachmentIdByUrl($taxonomy_image_url);
-
-            if (!empty($attachment_id)) {
-                $taxonomy_image_url = wp_get_attachment_image_src($attachment_id, $size);
-                $taxonomy_image_url = $taxonomy_image_url[0];
-            }
-        }
-
-        return $taxonomy_image_url ?: $this->placeholderImage;
-    }
-
-    private function getAttachmentIdByUrl($image_src)
-    {
-        global $wpdb;
-
-        $query = $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid = %s", $image_src);
-        $id = $wpdb->get_var($query);
-
-        return (!empty($id)) ? $id : null;
     }
 }

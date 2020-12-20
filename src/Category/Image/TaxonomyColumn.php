@@ -6,11 +6,11 @@ namespace Brianvarskonst\Nikas\Category\Image;
 
 class TaxonomyColumn
 {
-    private string $placeholderImage;
+    private CategoryImageUrlProvider $imageProvider;
 
-    public function __construct(string $placeholderImage)
+    public function __construct(CategoryImageUrlProvider $imageProvider)
     {
-        $this->placeholderImage = $placeholderImage;
+        $this->imageProvider = $imageProvider;
     }
 
     public function register($columns)
@@ -25,7 +25,7 @@ class TaxonomyColumn
         if ($column === 'thumb') {
             $columns = '
                 <span>
-                    <img src="' . $this->taxonomyImageUrl($id, 'thumbnail', true) . '" alt="' . __('Thumbnail', 'nikas') . '" class="wp-post-image" />
+                    <img src="' . $this->imageProvider->provide($id, 'thumbnail', true) . '" alt="' . __('Thumbnail', 'nikas') . '" class="wp-post-image" />
                 </span>
             ';
         }
@@ -63,42 +63,5 @@ class TaxonomyColumn
         if (isset($_POST['zci_taxonomy_image'])) {
             update_option('z_taxonomy_image' . $term_id, $_POST['zci_taxonomy_image'], false);
         }
-    }
-
-    private  function taxonomyImageUrl($term_id = NULL, $size = 'full', $return_placeholder = false)
-    {
-        if (!$term_id) {
-            if (is_category()) {
-                $term_id = get_query_var('cat');
-            } elseif (is_tag()) {
-                $term_id = get_query_var('tag_id');
-            } elseif (is_tax()) {
-                $current_term = get_term_by('slug', get_query_var('term'), get_query_var('taxonomy'));
-                $term_id = $current_term->term_id;
-            }
-        }
-
-        $taxonomy_image_url = get_option("taxonomy_image{$term_id}");
-
-        if (!empty($taxonomy_image_url)) {
-            $attachment_id = $this->getAttachmentIdByUrl($taxonomy_image_url);
-
-            if (!empty($attachment_id)) {
-                $taxonomy_image_url = wp_get_attachment_image_src($attachment_id, $size);
-                $taxonomy_image_url = $taxonomy_image_url[0];
-            }
-        }
-
-        return $taxonomy_image_url ?: $this->placeholderImage;
-    }
-
-    private function getAttachmentIdByUrl($image_src)
-    {
-        global $wpdb;
-
-        $query = $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid = %s", $image_src);
-        $id = $wpdb->get_var($query);
-
-        return (!empty($id)) ? $id : null;
     }
 }

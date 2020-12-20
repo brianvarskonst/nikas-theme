@@ -6,6 +6,7 @@ namespace Brianvarskonst\Nikas\Provider;
 
 use Brianvarskonst\Nikas\Asset\CategoryImageConfigProcessor;
 use Brianvarskonst\Nikas\Asset\ConfigProcessorInterface;
+use Brianvarskonst\Nikas\Category\Image\CategoryImageUrlProvider;
 use Brianvarskonst\Nikas\Category\Image\TaxonomyColumn;
 use Brianvarskonst\Nikas\Category\Image\TaxonomyField;
 use Inpsyde\App\Container;
@@ -31,16 +32,27 @@ class CategoryImageProvider extends EarlyBooted
         $placeholderImage = get_template_directory_uri() . '/resources/img/placeholder.png';
 
         $container->addService(
+            CategoryImageUrlProvider::class,
+            static function(Container $container) use ($placeholderImage): CategoryImageUrlProvider {
+                return new CategoryImageUrlProvider($placeholderImage);
+            }
+        );
+
+        $container->addService(
             TaxonomyField::class,
-            static function() use ($placeholderImage): TaxonomyField {
-                return new TaxonomyField($placeholderImage);
+            static function(Container $container) use ($placeholderImage): TaxonomyField {
+                return new TaxonomyField(
+                    $container->get(CategoryImageUrlProvider::class)
+                );
             }
         );
 
         $container->addService(
             TaxonomyColumn::class,
-            static function() use ($placeholderImage): TaxonomyColumn {
-                return new TaxonomyColumn($placeholderImage);
+            static function(Container $container) use ($placeholderImage): TaxonomyColumn {
+                return new TaxonomyColumn(
+                    $container->get(CategoryImageUrlProvider::class)
+                );
             }
         );
 
