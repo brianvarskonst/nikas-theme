@@ -35,6 +35,10 @@ add_action(
         $app->addProvider(new TextdomainProvider());
         $app->addProvider(new NavigationProvider());
         $app->addProvider(new ThumbnailProvider());
-        $app->addProvider(new CategoryImageProvider());
+        $app->addProvider(
+            new CategoryImageProvider(
+                get_template_directory_uri() . '/resources/img/placeholder.png'
+            )
+        );
     }
 );

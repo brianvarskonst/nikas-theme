@@ -20,9 +20,18 @@ class CategoryImageProvider extends EarlyBooted
         'term'
     ];
 
+    public const SUPPORTED_TAXONOMY = 'category';
+
+    private string $placeholder;
+
+    public function __construct(string $placeholder)
+    {
+        $this->placeholder = $placeholder;
+    }
+
     public function register(Container $container): bool
     {
-        $placeholderImage = get_template_directory_uri() . '/resources/img/placeholder.png';
+        $placeholderImage = $this->placeholder;
         $supportedPages = self::SUPPORTED_PAGES;
 
         $container->addService(
@@ -52,7 +61,9 @@ class CategoryImageProvider extends EarlyBooted
 
         $container->addService(
             CategoryImageConfigProcessor::class,
-            static function (Container $container) use ($placeholderImage, $supportedPages): ConfigProcessorInterface {
+            static function (
+                Container $container
+            ) use ($placeholderImage, $supportedPages): ConfigProcessorInterface {
                 $pageChecker = $container->get(PageChecker::class);
 
                 return new CategoryImageConfigProcessor(
@@ -87,7 +98,7 @@ class CategoryImageProvider extends EarlyBooted
         $taxonomies = get_taxonomies();
 
         foreach ($taxonomies as $taxonomy) {
-            if ($taxonomy !== 'category') {
+            if ($taxonomy !== self::SUPPORTED_TAXONOMY) {
                 continue;
             }
 
