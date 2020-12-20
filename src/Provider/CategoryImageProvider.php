@@ -10,8 +10,10 @@ use Brianvarskonst\Nikas\Category\Image\CategoryImageUrlProvider;
 use Brianvarskonst\Nikas\Category\Image\TaxonomyColumn;
 use Brianvarskonst\Nikas\Category\Image\TaxonomyField;
 use Brianvarskonst\Nikas\Helper\PageChecker;
+use Brianvarskonst\WordPress\Term\Meta\TermMeta;
 use Inpsyde\App\Container;
 use Inpsyde\App\Provider\EarlyBooted;
+use Inpsyde\Assets\Asset;
 
 class CategoryImageProvider extends EarlyBooted
 {
@@ -45,7 +47,10 @@ class CategoryImageProvider extends EarlyBooted
         $container->addService(
             CategoryImageUrlProvider::class,
             static function (Container $container) use ($placeholderImage): CategoryImageUrlProvider {
-                return new CategoryImageUrlProvider($placeholderImage);
+                return new CategoryImageUrlProvider(
+                    $container->get(TermMeta::class),
+                    $placeholderImage
+                );
             }
         );
 
@@ -53,7 +58,8 @@ class CategoryImageProvider extends EarlyBooted
             TaxonomyField::class,
             static function (Container $container): TaxonomyField {
                 return new TaxonomyField(
-                    $container->get(CategoryImageUrlProvider::class)
+                    $container->get(CategoryImageUrlProvider::class),
+                    $container->get(TermMeta::class)
                 );
             }
         );
@@ -81,6 +87,7 @@ class CategoryImageProvider extends EarlyBooted
                     [
                         'version' => get_bloginfo('version'),
                         'placeholder' => $placeholderImage,
+                        'location' => Asset::BACKEND,
                         'canEnqueue' =>
                             static function () use ($pageChecker, $supportedPages): bool {
                                 return $pageChecker->checkPage($supportedPages);
@@ -106,6 +113,7 @@ class CategoryImageProvider extends EarlyBooted
     public function boot(Container $container): bool
     {
         $taxonomyColumn = $container->get(TaxonomyColumn::class);
+        $taxonomyField = $container->get(TaxonomyField::class);
 
         $taxonomies = get_taxonomies();
 
@@ -113,8 +121,6 @@ class CategoryImageProvider extends EarlyBooted
             if ($taxonomy !== self::SUPPORTED_TAXONOMY) {
                 continue;
             }
-
-            $taxonomyField = $container->get(TaxonomyField::class);
 
             add_action("{$taxonomy}_add_form_fields", [$taxonomyField, 'add']);
             add_action("{$taxonomy}_edit_form_fields", [$taxonomyField, 'edit']);
@@ -140,8 +146,8 @@ class CategoryImageProvider extends EarlyBooted
             );
         }
 
-        add_action('edit_term', [$taxonomyColumn, 'save']);
-        add_action('create_term', [$taxonomyColumn, 'save']);
+        add_action('edit_term', [$taxonomyField, 'save']);
+        add_action('create_term', [$taxonomyField, 'save']);
 
         return true;
     }

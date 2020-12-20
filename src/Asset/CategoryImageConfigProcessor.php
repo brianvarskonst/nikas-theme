@@ -20,7 +20,7 @@ class CategoryImageConfigProcessor implements ConfigProcessorInterface
 
     public function accepts(Asset $asset): bool
     {
-        return $asset instanceof Script || $asset->handle() === 'theme';
+        return $asset instanceof Script && $asset->handle() === 'category-image';
     }
 
     public function process(Asset $asset): Asset
@@ -51,6 +51,10 @@ class CategoryImageConfigProcessor implements ConfigProcessorInterface
             && is_callable($this->config['canEnqueue'])
         ) {
             $asset->canEnqueue($this->config['canEnqueue']());
+        }
+
+        if (array_key_exists('location', $this->config)) {
+            $asset->forLocation($this->config['location']);
         }
 
         return $asset;

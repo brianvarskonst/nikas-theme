@@ -8,26 +8,37 @@ jQuery(document).ready(function($) {
 
         if (nikasCategoryImage.version >= "3.5") {
             event.preventDefault();
+
             if (frame) {
                 frame.open();
                 return;
             }
+
             frame = wp.media();
-            frame.on( "select", function() {
+
+            frame.on("select", function() {
                 // Grab the selected attachment.
                 var attachment = frame.state().get("selection").first();
                 var attachmentUrl = attachment.attributes.url;
-                attachmentUrl = attachmentUrl.replace('-scaled.', '.');
+
+                // attachmentUrl = attachmentUrl.replace('-scaled.', '.');
 
                 frame.close();
+
                 $(".zci-taxonomy-image").attr("src", attachmentUrl);
+
                 if (upload_button.parent().prev().children().hasClass("tax_list")) {
                     upload_button.parent().prev().children().val(attachmentUrl);
                     upload_button.parent().prev().prev().children().attr("src", attachmentUrl);
+                } else {
+                    var categoryImageInput = document.querySelector('input#category-image');
+
+                    categoryImageInput.defaultValue  = attachmentUrl;
+                    categoryImageInput.innerHTML = attachmentUrl;
+                    // $("#category-image").val(attachmentUrl);
                 }
-                else
-                    $("#zci_taxonomy_image").val(attachmentUrl);
             });
+
             frame.open();
         }
         else {
@@ -38,21 +49,25 @@ jQuery(document).ready(function($) {
 
     $(".z_remove_image_button").on('click', function() {
         $(".zci-taxonomy-image").attr("src", nikasCategoryImage.placeholder);
-        $("#zci_taxonomy_image").val("");
+        $("#category-image").val("");
+
         $(this).parent().siblings(".title").children("img").attr("src", nikasCategoryImage.placeholder);
-        $(".inline-edit-col :input[name='zci_taxonomy_image']").val("");
+
+        $(".inline-edit-col :input[name='category-image']").val("");
+
         return false;
     });
 
     if (nikasCategoryImage.version < "3.5") {
         window.send_to_editor = function(html) {
             imgurl = $("img",html).attr("src");
+
             if (upload_button.parent().prev().children().hasClass("tax_list")) {
                 upload_button.parent().prev().children().val(imgurl);
                 upload_button.parent().prev().prev().children().attr("src", imgurl);
-            }
-            else
+            } else {
                 $("#zci_taxonomy_image").val(imgurl);
+            }
             tb_remove();
         }
     }

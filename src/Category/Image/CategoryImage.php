@@ -4,22 +4,31 @@ declare(strict_types=1);
 
 namespace Brianvarskonst\Nikas\Category\Image;
 
+// Frontend Output
 class CategoryImage
 {
-    public function render($term_id = null, $size = 'full', $attr = null, $echo = true)
+    /**
+     * @param null $id
+     * @param string $size
+     * @param null $attr
+     * @param bool $echo
+     *
+     * @return string
+     */
+    public function render($id = null, $size = 'full', $attr = null, $echo = true)
     {
-        if (!$term_id) {
+        if (!$id) {
             if (is_category()) {
-                $term_id = get_query_var('cat');
+                $id = get_query_var('cat');
             } elseif (is_tag()) {
-                $term_id = get_query_var('tag_id');
+                $id = get_query_var('tag_id');
             } elseif (is_tax()) {
                 $current_term = get_term_by('slug', get_query_var('term'), get_query_var('taxonomy'));
-                $term_id = $current_term->term_id;
+                $id = $current_term->term_id;
             }
         }
 
-        $taxonomy_image_url = get_option("taxonomy_image{$term_id}");
+        $taxonomy_image_url = get_option("taxonomy_image{$id}");
 
         if (!empty($taxonomy_image_url)) {
             $attachment_id = $this->getAttachmentIdByUrl($taxonomy_image_url);

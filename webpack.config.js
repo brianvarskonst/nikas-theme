@@ -9,8 +9,9 @@ Encore
     .setPublicPath('./')
     .setManifestKeyPrefix('./')
 
-    .addEntry('theme', './resources/ts/theme.ts')
     .addEntry('style', './resources/scss/style.scss')
+    .addEntry('theme', './resources/ts/theme.ts')
+    .addEntry('category-image', './resources/js/category-image.js')
     .enableTypeScriptLoader()
     .enableSassLoader()
 

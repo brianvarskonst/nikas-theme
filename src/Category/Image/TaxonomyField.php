@@ -4,13 +4,20 @@ declare(strict_types=1);
 
 namespace Brianvarskonst\Nikas\Category\Image;
 
+use Brianvarskonst\WordPress\Term\Meta\TermMeta;
+
 class TaxonomyField
 {
     private CategoryImageUrlProvider $imageProvider;
 
-    public function __construct(CategoryImageUrlProvider $imageProvider)
-    {
+    private TermMeta $termMeta;
+
+    public function __construct(
+        CategoryImageUrlProvider $imageProvider,
+        TermMeta $termMeta
+    ) {
         $this->imageProvider = $imageProvider;
+        $this->termMeta = $termMeta;
     }
 
     public function add()
@@ -41,32 +48,61 @@ class TaxonomyField
             wp_enqueue_script('thickbox');
         }
 
-        $taxonomyImage = $this->imageProvider->provide($taxonomy->term_id, null);
+        $termId = (int) $taxonomy->term_id;
 
-        if ($taxonomyImage === $this->imageProvider->placeholder()) {
-            $image_url = "";
-        } else {
-            $image_url = $taxonomyImage;
-        }
+        $categoryImage = $this->imageProvider->provide($termId, null);
 
-        echo '
+        $categoryImageMedium = $this->imageProvider->provide($termId, 'medium');
+
+        $imageUrl =  $categoryImage === $this->imageProvider->placeholder()
+            ? "" : $categoryImage;
+
+        echo $this->renderEditView($categoryImageMedium, $imageUrl);
+    }
+
+    private function renderEditView(string $mediumImage, string $url): string
+    {
+        ob_start(); ?>
+
         <tr class="form-field">
             <th scope="row" valign="top">
-                <label for="zci_taxonomy_image">' . __('Image', 'categories-images') . '</label>
+                <label for="zci_taxonomy_image">
+                    <?php esc_html_e('Image', 'nikas'); ?>
+                </label>
             </th>
+
             <td>
-                <img class="zci-taxonomy-image" src="' . $this->imageProvider->provide($taxonomy->term_id, 'medium') . '"/>
-                
+                <img class="zci-taxonomy-image" src="<?php echo esc_attr($mediumImage); ?>" />
+
                 <br/>
-                
-                <input type="text" name="zci_taxonomy_image" id="zci_taxonomy_image" value="' . $image_url . '" />
-                
+
+                <input type="text" name="category-image" id="category-image"
+                    <?php echo !empty($url) ? ' value="' .  esc_attr($url) . '"' : ""; ?> />
+
                 <br />
-                
-                <button class="z_upload_image_button button">' . __('Upload/Add image', 'categories-images') . '</button>
-                
-                <button class="z_remove_image_button button">' . __('Remove image', 'categories-images') . '</button>
+
+                <button class="z_upload_image_button button">
+                    <?php esc_html_e('Upload/Add image', 'nikas'); ?>
+                </button>
+
+                <button class="z_remove_image_button button">
+                    <?php esc_html_e('Remove image', 'nikas'); ?>
+                </button>
             </td>
-        </tr>';
+        </tr>
+
+        <?php return ob_get_clean();
+    }
+
+    public function save($term_id)
+    {
+        $categoryImage = filter_input(
+            INPUT_POST,
+            'category-image'
+        );
+
+        if (!empty($categoryImage)) {
+            $this->termMeta->create($term_id, 'category-image', $categoryImage);
+        }
     }
 }

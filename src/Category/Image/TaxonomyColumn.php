@@ -61,11 +61,4 @@ class TaxonomyColumn
             ';
         }
     }
-
-    public function save($term_id)
-    {
-        if (isset($_POST['zci_taxonomy_image'])) {
-            update_option('z_taxonomy_image' . $term_id, $_POST['zci_taxonomy_image'], false);
-        }
-    }
 }
