@@ -46,7 +46,10 @@ class CategoryImageConfigProcessor implements ConfigProcessorInterface
             );
         }
 
-        if (array_key_exists('canEnqueue', $this->config) && is_callable($this->config['canEnqueue'])) {
+        if (
+            array_key_exists('canEnqueue', $this->config)
+            && is_callable($this->config['canEnqueue'])
+        ) {
             $asset->canEnqueue($this->config['canEnqueue']());
         }
 

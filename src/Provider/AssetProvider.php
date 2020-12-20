@@ -27,9 +27,9 @@ class AssetProvider extends Booted
 
         $container->addService(
             'nikas.config.processors',
-            static function() use ($container): array {
+            static function () use ($container): array {
                 return [
-                    $container->get(GlobalConfigProcessor::class)
+                    $container->get(GlobalConfigProcessor::class),
                 ];
             }
         );
@@ -41,6 +41,7 @@ class AssetProvider extends Booted
     {
         $configLoaders = $container->get('nikas.config.processors');
 
+        // phpcs:disable Inpsyde.CodeQuality.NestingLevel.High
         add_action(
             AssetManager::ACTION_SETUP,
             static function (AssetManager $assetManager) use ($configLoaders) {

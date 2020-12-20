@@ -15,7 +15,7 @@ class MainMenuWalker extends \Walker_Nav_Menu
      *
      * @param string   $output Passed by reference. Used to append additional content.
      * @param int      $depth  Depth of menu item. Used for padding.
-     * @param stdClass $args   An object of wp_nav_menu() arguments.
+     * @param \stdClass $args   An object of wp_nav_menu() arguments.
      */
     public function start_lvl(&$output, $depth = 0, $args = [])
     {
@@ -68,7 +68,7 @@ class MainMenuWalker extends \Walker_Nav_Menu
         foreach ($atts as $attr => $value) {
             if (!empty($value)) {
                 $value = 'href' === $attr ? esc_url($value) : esc_attr($value);
-                $attributes .= ' '.$attr.'="'.$value.'"';
+                $attributes .= ' ' . $attr . '="' . $value . '"';
             }
         }
 

@@ -15,7 +15,7 @@ class HelperProvider extends RegisteredOnly
     {
         $container->addService(
             PageChecker::class,
-            static function(): PageChecker {
+            static function (): PageChecker {
                 return new PageChecker();
             }
         );

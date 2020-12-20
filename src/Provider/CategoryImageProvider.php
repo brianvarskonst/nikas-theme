@@ -17,7 +17,7 @@ class CategoryImageProvider extends EarlyBooted
 {
     public const SUPPORTED_PAGES = [
         'edit-tags',
-        'term'
+        'term',
     ];
 
     public const SUPPORTED_TAXONOMY = 'category';
@@ -29,6 +29,14 @@ class CategoryImageProvider extends EarlyBooted
         $this->placeholder = $placeholder;
     }
 
+    /**
+     * @param Container $container
+     * @return bool
+     *
+     * @throws \Throwable
+     *
+     * phpcs:disable Inpsyde.CodeQuality.FunctionLength.TooLong
+     */
     public function register(Container $container): bool
     {
         $placeholderImage = $this->placeholder;
@@ -36,14 +44,14 @@ class CategoryImageProvider extends EarlyBooted
 
         $container->addService(
             CategoryImageUrlProvider::class,
-            static function(Container $container) use ($placeholderImage): CategoryImageUrlProvider {
+            static function (Container $container) use ($placeholderImage): CategoryImageUrlProvider {
                 return new CategoryImageUrlProvider($placeholderImage);
             }
         );
 
         $container->addService(
             TaxonomyField::class,
-            static function(Container $container): TaxonomyField {
+            static function (Container $container): TaxonomyField {
                 return new TaxonomyField(
                     $container->get(CategoryImageUrlProvider::class)
                 );
@@ -52,7 +60,7 @@ class CategoryImageProvider extends EarlyBooted
 
         $container->addService(
             TaxonomyColumn::class,
-            static function(Container $container): TaxonomyColumn {
+            static function (Container $container): TaxonomyColumn {
                 return new TaxonomyColumn(
                     $container->get(CategoryImageUrlProvider::class)
                 );
@@ -63,16 +71,20 @@ class CategoryImageProvider extends EarlyBooted
             CategoryImageConfigProcessor::class,
             static function (
                 Container $container
-            ) use ($placeholderImage, $supportedPages): ConfigProcessorInterface {
+            ) use (
+                $placeholderImage,
+                $supportedPages
+            ): ConfigProcessorInterface {
                 $pageChecker = $container->get(PageChecker::class);
 
                 return new CategoryImageConfigProcessor(
                     [
                         'version' => get_bloginfo('version'),
                         'placeholder' => $placeholderImage,
-                        'canEnqueue' => static function() use ($pageChecker, $supportedPages) {
-                            return $pageChecker->checkPage($supportedPages);
-                        },
+                        'canEnqueue' =>
+                            static function () use ($pageChecker, $supportedPages): bool {
+                                return $pageChecker->checkPage($supportedPages);
+                            },
                     ]
                 );
             }
@@ -80,10 +92,10 @@ class CategoryImageProvider extends EarlyBooted
 
         $container->extendService(
             'nikas.config.processors',
-            static function ($service, Container $container): array {
+            static function (array $service, Container $container): array {
                 return [
                     ...$service,
-                    $container->get(CategoryImageConfigProcessor::class)
+                    $container->get(CategoryImageConfigProcessor::class),
                 ];
             }
         );
@@ -111,7 +123,7 @@ class CategoryImageProvider extends EarlyBooted
             add_filter("manage_{$taxonomy}_custom_column", [ $taxonomyColumn, 'render'], 10, 3);
 
             // If tax is deleted
-            add_action("delete_{$taxonomy}", function ($ttId) {
+            add_action("delete_{$taxonomy}", static function ($ttId): void {
                 delete_option("taxonomy_image{$ttId}");
             });
         }

@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Brianvarskonst\Nikas\Category\Image;
-
 
 class TaxonomyColumn
 {
@@ -18,7 +18,7 @@ class TaxonomyColumn
         return array_merge(
             $columns,
             [
-                'thumb' => __('Image', 'nikas')
+                'thumb' => __('Image', 'nikas'),
             ]
         );
     }
@@ -38,7 +38,7 @@ class TaxonomyColumn
 
     public function renderQuickEdit($column_name, $screen, $name)
     {
-        if ($column_name === 'thumb')
+        if ($column_name === 'thumb') {
             echo '
                 <fieldset>
                     <div class="thumb inline-edit-col">
@@ -59,6 +59,7 @@ class TaxonomyColumn
                     </div>
                 </fieldset>
             ';
+        }
     }
 
     public function save($term_id)

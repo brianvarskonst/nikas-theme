@@ -34,9 +34,9 @@ class TaxonomyField
 
     public function edit($taxonomy)
     {
-        if (get_bloginfo('version') >= 3.5)
+        if (get_bloginfo('version') >= 3.5) {
             wp_enqueue_media();
-        else {
+        } else {
             wp_enqueue_style('thickbox');
             wp_enqueue_script('thickbox');
         }

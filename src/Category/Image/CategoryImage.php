@@ -30,7 +30,6 @@ class CategoryImage
                 $image_attr = '';
 
                 if (is_array($attr)) {
-
                     if (!empty($attr['class'])) {
                         $image_attr .= ' class="' . $attr['class'] . '" ';
                     }
