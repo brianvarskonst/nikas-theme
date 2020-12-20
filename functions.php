@@ -8,6 +8,7 @@ use Brianvarskonst\Nikas\Provider\AssetProvider;
 use Brianvarskonst\Nikas\Provider\BackwardCompatibilityProvider;
 use Brianvarskonst\Nikas\Provider\CategoryImageProvider;
 use Brianvarskonst\Nikas\Provider\DisableCoreFunctionalityProvider;
+use Brianvarskonst\Nikas\Provider\HelperProvider;
 use Brianvarskonst\Nikas\Provider\NavigationProvider;
 use Brianvarskonst\Nikas\Provider\TextdomainProvider;
 use Brianvarskonst\Nikas\Provider\ThemeProvider;
@@ -25,6 +26,7 @@ App::new(new Container())->boot();
 add_action(
     App::ACTION_ADD_PROVIDERS,
     static function (App $app) {
+        $app->addProvider(new HelperProvider());
         $app->addProvider(new BackwardCompatibilityProvider());
         $app->addProvider(new ThemeProvider());
         $app->addProvider(new AssetProvider());

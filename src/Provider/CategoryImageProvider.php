@@ -6,25 +6,24 @@ namespace Brianvarskonst\Nikas\Provider;
 
 use Brianvarskonst\Nikas\Asset\CategoryImageConfigProcessor;
 use Brianvarskonst\Nikas\Asset\ConfigProcessorInterface;
-use Brianvarskonst\Nikas\Category\Image\CategoryImagePageChecker;
 use Brianvarskonst\Nikas\Category\Image\CategoryImageUrlProvider;
 use Brianvarskonst\Nikas\Category\Image\TaxonomyColumn;
 use Brianvarskonst\Nikas\Category\Image\TaxonomyField;
+use Brianvarskonst\Nikas\Helper\PageChecker;
 use Inpsyde\App\Container;
 use Inpsyde\App\Provider\EarlyBooted;
 
 class CategoryImageProvider extends EarlyBooted
 {
+    public const SUPPORTED_PAGES = [
+        'edit-tags',
+        'term'
+    ];
+
     public function register(Container $container): bool
     {
         $placeholderImage = get_template_directory_uri() . '/resources/img/placeholder.png';
-
-        $container->addService(
-            CategoryImagePageChecker::class,
-            static function(Container $container): CategoryImagePageChecker {
-                return new CategoryImagePageChecker();
-            }
-        );
+        $supportedPages = self::SUPPORTED_PAGES;
 
         $container->addService(
             CategoryImageUrlProvider::class,
@@ -53,15 +52,15 @@ class CategoryImageProvider extends EarlyBooted
 
         $container->addService(
             CategoryImageConfigProcessor::class,
-            static function (Container $container) use ($placeholderImage): ConfigProcessorInterface {
-                $pageChecker = $container->get(CategoryImagePageChecker::class);
+            static function (Container $container) use ($placeholderImage, $supportedPages): ConfigProcessorInterface {
+                $pageChecker = $container->get(PageChecker::class);
 
                 return new CategoryImageConfigProcessor(
                     [
                         'version' => get_bloginfo('version'),
                         'placeholder' => $placeholderImage,
-                        'canEnqueue' => static function() use ($pageChecker) {
-                            return $pageChecker->checkPage();
+                        'canEnqueue' => static function() use ($pageChecker, $supportedPages) {
+                            return $pageChecker->checkPage($supportedPages);
                         },
                     ]
                 );
@@ -106,10 +105,10 @@ class CategoryImageProvider extends EarlyBooted
             });
         }
 
-        $pageChecker = $container->get(CategoryImagePageChecker::class);
+        $pageChecker = $container->get(PageChecker::class);
 
         // Register styles and scripts
-        if ($pageChecker->checkPage()) {
+        if ($pageChecker->checkPage(self::SUPPORTED_PAGES)) {
             add_action(
                 'quick_edit_custom_box',
                 [$taxonomyColumn, 'renderQuickEdit'],
