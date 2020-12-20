@@ -41,11 +41,7 @@ class TaxonomyField
             wp_enqueue_script('thickbox');
         }
 
-        $taxonomyImage = $this->imageProvider->provide(
-            $taxonomy->term_id,
-            null,
-            true
-        );
+        $taxonomyImage = $this->imageProvider->provide($taxonomy->term_id, null);
 
         if ($taxonomyImage === $this->imageProvider->placeholder()) {
             $image_url = "";
@@ -59,7 +55,7 @@ class TaxonomyField
                 <label for="zci_taxonomy_image">' . __('Image', 'categories-images') . '</label>
             </th>
             <td>
-                <img class="zci-taxonomy-image" src="' . $this->imageProvider->provide($taxonomy->term_id, 'medium', true) . '"/>
+                <img class="zci-taxonomy-image" src="' . $this->imageProvider->provide($taxonomy->term_id, 'medium') . '"/>
                 
                 <br/>
                 

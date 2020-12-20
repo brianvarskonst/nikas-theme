@@ -18,12 +18,12 @@ class CategoryImageUrlProvider
         return $this->placeholderImage;
     }
 
-    public function provide($id = null, $size = 'full', $return_placeholder = false)
+    public function provide($id = null, $size = 'full')
     {
-        return $this->taxonomyImageUrl($id, $size, $return_placeholder);
+        return $this->taxonomyImageUrl($id, $size);
     }
 
-    private  function taxonomyImageUrl($term_id = null, $size = 'full', $return_placeholder = false)
+    private function taxonomyImageUrl($term_id = null, $size = 'full')
     {
         if (!$term_id) {
             if (is_category()) {

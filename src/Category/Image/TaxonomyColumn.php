@@ -15,9 +15,12 @@ class TaxonomyColumn
 
     public function register($columns)
     {
-        $columns['thumb'] = __('Image', 'nikas');
-
-        return $columns;
+        return array_merge(
+            $columns,
+            [
+                'thumb' => __('Image', 'nikas')
+            ]
+        );
     }
 
     public function render($columns, $column, $id)
@@ -25,7 +28,7 @@ class TaxonomyColumn
         if ($column === 'thumb') {
             $columns = '
                 <span>
-                    <img src="' . $this->imageProvider->provide($id, 'thumbnail', true) . '" alt="' . __('Thumbnail', 'nikas') . '" class="wp-post-image" />
+                    <img src="' . $this->imageProvider->provide($id, 'thumbnail') . '" alt="' . __('Thumbnail', 'nikas') . '" class="wp-post-image" />
                 </span>
             ';
         }

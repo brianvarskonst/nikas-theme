@@ -9,13 +9,12 @@ use Inpsyde\Assets\Script;
 
 class CategoryImageConfigProcessor implements ConfigProcessorInterface
 {
-    private string $key;
+    public const LOCALIZE_KEY = 'nikasCategoryImage';
 
     private array $config;
 
-    public function __construct(string $key, array $config)
+    public function __construct(array $config)
     {
-        $this->key = $key;
         $this->config = $config;
     }
 
@@ -40,7 +39,7 @@ class CategoryImageConfigProcessor implements ConfigProcessorInterface
 
         if (!empty($localize)) {
             $asset->withLocalize(
-                $this->key,
+                self::LOCALIZE_KEY,
                 static function () use ($localize): array {
                     return $localize;
                 }
