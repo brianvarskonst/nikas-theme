@@ -1,8 +1,8 @@
 # Nikas WordPress Theme
- 
-![Nikas](https://github.com/brianvarskonst/nikas-theme/blob/main/nikas-screendesign-home.png?raw=true "Nikas")
 
 This is the Repository of the Theme we develop live on [Twitch](https://www.twitch.tv/ghettoexpresso), everybody can use or customize it. 
+ 
+![Nikas](https://github.com/brianvarskonst/nikas-theme/blob/main/nikas-screendesign-home.png?raw=true "Nikas")
 
 ## Table Of Contents
 
