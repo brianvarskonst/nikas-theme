@@ -4,12 +4,7 @@ declare(strict_types=1);
 
 namespace Brianvarskonst\WordPress\Term\Meta;
 
-class TermMeta implements
-    CreateTermMetaInterface,
-    ReadTermMetaInterface,
-    UpdateTermMetaInterface,
-    DeleteTermMetaInterface,
-    EnsureTermMetaInterface
+class TermMeta implements CrudTermMetaInterface
 {
 
     /**

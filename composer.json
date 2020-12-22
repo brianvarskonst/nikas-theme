@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^8.0",
         "inpsyde/assets": "^2.1",
         "inpsyde/wp-app-container": "^1.2",
         "brianvarskonst/wp-term-meta": "*"
@@ -36,6 +36,9 @@
         "cs:cbf": "@php ./vendor/bin/phpcbf"
     },
     "config": {
+        "platform": {
+            "php": "8.0"
+        },
         "sort-packages": true,
         "optimize-autoloader": true
     },

@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace Brianvarskonst\Nikas\Category\Image;
 
-use Brianvarskonst\WordPress\Term\Meta\TermMeta;
+use Brianvarskonst\Nikas\Entity\CategoryImage as Entity;
+use Brianvarskonst\Nikas\TermMeta\CategoryImage as TermMetaManager;
 
 class TaxonomyField
 {
-    private CategoryImageUrlProvider $imageProvider;
-
-    private TermMeta $termMeta;
-
     public function __construct(
-        CategoryImageUrlProvider $imageProvider,
-        TermMeta $termMeta
+        private CategoryImageUrlProvider $imageProvider,
+        private TermMetaManager $categoryImageTermMeta
     ) {
-        $this->imageProvider = $imageProvider;
-        $this->termMeta = $termMeta;
     }
 
     public function add()
@@ -57,10 +52,12 @@ class TaxonomyField
         $imageUrl =  $categoryImage === $this->imageProvider->placeholder()
             ? "" : $categoryImage;
 
-        echo $this->renderEditView($categoryImageMedium, $imageUrl);
+        $entity = $this->categoryImageTermMeta->get($termId);
+
+        echo $this->renderEditView($categoryImageMedium, $imageUrl, (int) $entity?->attachmentId());
     }
 
-    private function renderEditView(string $mediumImage, string $url): string
+    private function renderEditView(string $mediumImage, string $url, int $id): string
     {
         ob_start(); ?>
 
@@ -77,7 +74,10 @@ class TaxonomyField
                 <br/>
 
                 <input type="text" name="category-image" id="category-image"
-                    <?php echo !empty($url) ? ' value="' .  esc_attr($url) . '"' : ""; ?> />
+                    <?php echo !empty($url) ? ' value="' .  esc_attr($url) . '"' : ''; ?> />
+
+                <input type="hidden" name="category-image-attachment-id" id="category-image-attachment-id"
+                    <?php echo $id > 0 ? 'value="' . esc_attr($id) . '"': ''; ?> />
 
                 <br />
 
@@ -94,15 +94,21 @@ class TaxonomyField
         <?php return ob_get_clean();
     }
 
-    public function save($term_id)
+    public function save($termId)
     {
-        $categoryImage = filter_input(
+        $categoryImageAttachmentId = filter_input(
             INPUT_POST,
-            'category-image'
+            'category-image-attachment-id',
+            FILTER_SANITIZE_NUMBER_INT
         );
 
-        if (!empty($categoryImage)) {
-            $this->termMeta->create($term_id, 'category-image', $categoryImage);
+        if ((int) $categoryImageAttachmentId > 0) {
+            $this->categoryImageTermMeta->create(
+                Entity::new(
+                    (int) $categoryImageAttachmentId,
+                    (int) $termId
+                )
+            );
         }
     }
 }

@@ -10,6 +10,7 @@ use Brianvarskonst\Nikas\Category\Image\CategoryImageUrlProvider;
 use Brianvarskonst\Nikas\Category\Image\TaxonomyColumn;
 use Brianvarskonst\Nikas\Category\Image\TaxonomyField;
 use Brianvarskonst\Nikas\Helper\PageChecker;
+use Brianvarskonst\Nikas\TermMeta\CategoryImage;
 use Brianvarskonst\WordPress\Term\Meta\TermMeta;
 use Inpsyde\App\Container;
 use Inpsyde\App\Provider\EarlyBooted;
@@ -24,12 +25,8 @@ class CategoryImageProvider extends EarlyBooted
 
     public const SUPPORTED_TAXONOMY = 'category';
 
-    private string $placeholder;
-
-    public function __construct(string $placeholder)
-    {
-        $this->placeholder = $placeholder;
-    }
+    public function __construct(private string $placeholder)
+    {}
 
     /**
      * @param Container $container
@@ -45,10 +42,15 @@ class CategoryImageProvider extends EarlyBooted
         $supportedPages = self::SUPPORTED_PAGES;
 
         $container->addService(
+            CategoryImage::class,
+            static fn() => new CategoryImage($container->get(TermMeta::class))
+        );
+
+        $container->addService(
             CategoryImageUrlProvider::class,
             static function (Container $container) use ($placeholderImage): CategoryImageUrlProvider {
                 return new CategoryImageUrlProvider(
-                    $container->get(TermMeta::class),
+                    $container->get(CategoryImage::class),
                     $placeholderImage
                 );
             }
@@ -59,7 +61,7 @@ class CategoryImageProvider extends EarlyBooted
             static function (Container $container): TaxonomyField {
                 return new TaxonomyField(
                     $container->get(CategoryImageUrlProvider::class),
-                    $container->get(TermMeta::class)
+                    $container->get(CategoryImage::class)
                 );
             }
         );
