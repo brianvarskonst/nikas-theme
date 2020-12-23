@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brianvarskonst\Nikas\Category\Image;
 
+use Brianvarskonst\Nikas\Entity\CategoryImageAttachment;
 use \Brianvarskonst\Nikas\TermMeta\CategoryImage;
 
 class CategoryImageUrlProvider
@@ -30,9 +31,12 @@ class CategoryImageUrlProvider
         $categoryImage = $this->categoryImage->get($id, true);
 
         if ($categoryImage !== null) {
-            $attachment = wp_get_attachment_image_src($categoryImage->attachmentId(), $size);
+            $attachment = CategoryImageAttachment::fromId(
+                $categoryImage->attachmentId(),
+                $size
+            );
 
-            return $attachment[0];
+            return $attachment->src();
         }
 
         return $this->placeholderImage;

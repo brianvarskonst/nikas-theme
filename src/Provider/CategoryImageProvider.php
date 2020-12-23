@@ -6,6 +6,7 @@ namespace Brianvarskonst\Nikas\Provider;
 
 use Brianvarskonst\Nikas\Asset\CategoryImageConfigProcessor;
 use Brianvarskonst\Nikas\Asset\ConfigProcessorInterface;
+use Brianvarskonst\Nikas\Category\Image\CategoryImageRenderer;
 use Brianvarskonst\Nikas\Category\Image\CategoryImageUrlProvider;
 use Brianvarskonst\Nikas\Category\Image\TaxonomyColumn;
 use Brianvarskonst\Nikas\Category\Image\TaxonomyField;
@@ -43,7 +44,10 @@ class CategoryImageProvider extends EarlyBooted
 
         $container->addService(
             CategoryImage::class,
-            static fn() => new CategoryImage($container->get(TermMeta::class))
+            static fn() =>
+                new CategoryImage(
+                    $container->get(TermMeta::class)
+                )
         );
 
         $container->addService(
@@ -58,21 +62,20 @@ class CategoryImageProvider extends EarlyBooted
 
         $container->addService(
             TaxonomyField::class,
-            static function (Container $container): TaxonomyField {
-                return new TaxonomyField(
+            static fn (Container $container): TaxonomyField =>
+                new TaxonomyField(
                     $container->get(CategoryImageUrlProvider::class),
                     $container->get(CategoryImage::class)
-                );
-            }
+                )
         );
 
         $container->addService(
             TaxonomyColumn::class,
-            static function (Container $container): TaxonomyColumn {
-                return new TaxonomyColumn(
-                    $container->get(CategoryImageUrlProvider::class)
-                );
-            }
+            static fn(Container $container): TaxonomyColumn =>
+                new TaxonomyColumn(
+                    $container->get(CategoryImageUrlProvider::class),
+                    $container->get(CategoryImage::class)
+                )
         );
 
         $container->addService(
@@ -99,14 +102,21 @@ class CategoryImageProvider extends EarlyBooted
             }
         );
 
+        $container->addService(
+            CategoryImageRenderer::class,
+            static fn(Container $container) =>
+                new CategoryImageRenderer(
+                    $container->get(CategoryImage::class)
+                )
+        );
+
         $container->extendService(
             'nikas.config.processors',
-            static function (array $service, Container $container): array {
-                return [
+            static fn (array $service, Container $container): array =>
+                [
                     ...$service,
                     $container->get(CategoryImageConfigProcessor::class),
-                ];
-            }
+                ]
         );
 
         return true;

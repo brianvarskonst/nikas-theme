@@ -1,4 +1,5 @@
 import {extendDefaults} from "../helper/extend-defaults.helper";
+import {parents} from "../helper/parents.helper";
 
 export default class CategoryImage {
     constructor(config) {
@@ -100,12 +101,23 @@ export default class CategoryImage {
 
     onCLickEditInline()
     {
-        const taxId = this.editInline.parents('tr').attr('id').substr(4)
-        const thumb = document.querySelector(`#tag-${taxId} .thumb img`);
+        const taxEl = parents(this.editInline.parentNode, 'tr');
 
-        const inlineEditColEl = document.querySelector('.inline-edit-col .title img');
+        if (taxEl === null) {
+            return;
+        }
 
-        inlineEditColEl.src = thumb.src;
+        const taxId = taxEl.id.substr(4)
+        const thumb = document.querySelector(`#tag-${taxId} .image img`);
+
+        console.log(document.querySelector(`#edit-${taxId}`));
+
+        const inlineEditColImageEl = document.querySelector('.inline-edit-col .thumbnail-image img');
+
+        inlineEditColImageEl.src = thumb.src;
+
+        const inlineEditColInputEl = document.querySelector('.inline-edit-col input[name="zci_taxonomy_image"]');
+        inlineEditColInputEl.defaultValue = thumb.src;
 
         // To Do: fix image input url in quick mode
         /*if (thumb != nikasCategoryImage.placeholder) {

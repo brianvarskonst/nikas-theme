@@ -17,12 +17,7 @@ class TaxonomyField
 
     public function add()
     {
-        if (get_bloginfo('version') >= 3.5) {
-            wp_enqueue_media();
-        } else {
-            wp_enqueue_style('thickbox');
-            wp_enqueue_script('thickbox');
-        }
+        wp_enqueue_media();
 
         echo '<div class="form-field">
             <label for="zci_taxonomy_image">' . __('Image', 'nikas') . '</label>
@@ -36,21 +31,15 @@ class TaxonomyField
 
     public function edit($taxonomy)
     {
-        if (get_bloginfo('version') >= 3.5) {
-            wp_enqueue_media();
-        } else {
-            wp_enqueue_style('thickbox');
-            wp_enqueue_script('thickbox');
-        }
+        wp_enqueue_media();
 
         $termId = (int) $taxonomy->term_id;
 
         $categoryImage = $this->imageProvider->provide($termId, null);
-
         $categoryImageMedium = $this->imageProvider->provide($termId, 'medium');
 
-        $imageUrl =  $categoryImage === $this->imageProvider->placeholder()
-            ? "" : $categoryImage;
+        $imageUrl = $categoryImage === $this->imageProvider->placeholder()
+            ? '' : $categoryImage;
 
         $entity = $this->categoryImageTermMeta->get($termId);
 
