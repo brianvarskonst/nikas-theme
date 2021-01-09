@@ -27,7 +27,8 @@ class CategoryImageProvider extends EarlyBooted
     public const SUPPORTED_TAXONOMY = 'category';
 
     public function __construct(private string $placeholder)
-    {}
+    {
+    }
 
     /**
      * @param Container $container
@@ -106,7 +107,8 @@ class CategoryImageProvider extends EarlyBooted
             CategoryImageRenderer::class,
             static fn(Container $container) =>
                 new CategoryImageRenderer(
-                    $container->get(CategoryImage::class)
+                    $container->get(CategoryImage::class),
+                    $placeholderImage
                 )
         );
 
@@ -138,7 +140,7 @@ class CategoryImageProvider extends EarlyBooted
             add_action("{$taxonomy}_edit_form_fields", [$taxonomyField, 'edit']);
 
             add_filter("manage_edit-{$taxonomy}_columns", [$taxonomyColumn, 'register']);
-            add_filter("manage_{$taxonomy}_custom_column", [ $taxonomyColumn, 'render'], 10, 3);
+            add_filter("manage_{$taxonomy}_custom_column", [$taxonomyColumn, 'render'], 10, 3);
 
             // If tax is deleted
             add_action("delete_{$taxonomy}", static function ($ttId): void {

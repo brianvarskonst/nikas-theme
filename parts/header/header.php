@@ -27,3 +27,5 @@ declare(strict_types=1);
         </div>
     </nav>
 </header>
+
+<?php get_template_part('parts/header/categories');

@@ -66,7 +66,7 @@ class TaxonomyField
                     <?php echo !empty($url) ? ' value="' .  esc_attr($url) . '"' : ''; ?> />
 
                 <input type="hidden" name="category-image-attachment-id" id="category-image-attachment-id"
-                    <?php echo $id > 0 ? 'value="' . esc_attr($id) . '"': ''; ?> />
+                    <?php echo $id > 0 ? 'value="' . esc_attr($id) . '"' : ''; ?> />
 
                 <br />
 

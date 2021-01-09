@@ -13,7 +13,8 @@ class TaxonomyColumn
     public function __construct(
         private CategoryImageUrlProvider $imageProvider,
         private TermMetaManager $categoryImageTermMeta
-    ) {}
+    ) {
+    }
 
     public function register($columns)
     {
@@ -44,7 +45,6 @@ class TaxonomyColumn
             echo $this->rendeInlineEdit();
         }
     }
-
 
     private function rendeInlineEdit(): string
     {

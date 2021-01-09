@@ -11,7 +11,8 @@ class CategoryImageAttachment
         private int $width,
         private int $height,
         private bool $isResized
-    ) {}
+    ) {
+    }
 
     /**
      * @param int $id
