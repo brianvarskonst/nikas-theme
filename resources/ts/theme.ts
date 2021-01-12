@@ -1,6 +1,6 @@
 import CategoryMenu from "./module/category-menu.module";
 
-const categoryMenu = new CategoryMenu(
+new CategoryMenu(
     document.querySelector('[data-category-menu]'),
     {}
 );

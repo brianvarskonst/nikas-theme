@@ -1,4 +1,4 @@
-export function parents(node, selector) {
+export function parents(node: Node & ParentNode | null, selector: string): Element | null {
     let current = node,
         list    = [];
 
@@ -9,11 +9,11 @@ export function parents(node, selector) {
 
     let result = null;
 
-    list.forEach(element => {
+    list.forEach((element: Element) => {
         if (element.matches(selector)) {
             result = element
         }
     })
 
-    return result
+    return result;
 }

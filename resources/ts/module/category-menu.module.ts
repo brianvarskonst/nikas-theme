@@ -1,4 +1,4 @@
-import {extendDefaults} from "../../js/helper/extend-defaults.helper";
+import {extendDefaults} from "../helper/extend-defaults.helper";
 
 export default class CategoryMenu {
     private el: HTMLElement;
@@ -6,10 +6,11 @@ export default class CategoryMenu {
 
     constructor(el, options)
     {
-        const _defaults = {};
+        const defaults = {};
 
         this.el = el || el;
-        this.options = extendDefaults(_defaults, options);
+        // @ts-ignore
+        this.options = extendDefaults(defaults, options);
 
         this.init();
     }
@@ -31,6 +32,5 @@ export default class CategoryMenu {
 
     public onLoad()
     {
-
     }
 }

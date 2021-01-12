@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Brianvarskonst\Nikas\Provider;
 
+use Brianvarskonst\Nikas\Asset\AdminConfigProcessor;
 use Brianvarskonst\Nikas\Asset\ConfigProcessorInterface;
 use Brianvarskonst\Nikas\Asset\GlobalConfigProcessor;
-use Brianvarskonst\Nikas\Asset\CategoryImageConfigProcessor;
 use Inpsyde\App\Container;
 use Inpsyde\App\Provider\Booted;
 use Inpsyde\Assets\Asset;
@@ -27,11 +27,9 @@ class AssetProvider extends Booted
 
         $container->addService(
             'nikas.config.processors',
-            static function () use ($container): array {
-                return [
-                    $container->get(GlobalConfigProcessor::class),
-                ];
-            }
+            static fn ($container): array => [
+                $container->get(GlobalConfigProcessor::class),
+            ]
         );
 
         return true;
@@ -63,7 +61,6 @@ class AssetProvider extends Booted
                     },
                     $assets
                 );
-
                 $assetManager->register(...$assets);
             }
         );

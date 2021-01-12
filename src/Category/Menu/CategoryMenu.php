@@ -11,8 +11,8 @@ class CategoryMenu
     public function __construct(
         private CategoryImageRenderer $categoryImageRenderer,
         /**
-                                                                                                                                                                                                                                                                                                                                                                                                                         * @var \WP_Term[]
-                                                                                                                                                                                                                                                                                                                                                                                                                         */
+         * @var \WP_Term[]
+         */
         private array $categories = [],
     ) {
     }

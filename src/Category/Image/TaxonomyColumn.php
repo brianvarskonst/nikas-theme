@@ -62,7 +62,7 @@ class TaxonomyColumn
                     </span>
 
                     <span class="input-text-wrap">
-                        <input type="text" name="zci_taxonomy_image" value="" class="tax_list" />
+                        <input type="text" name="category-image" value="" class="tax_list" />
                     </span>
 
                     <span class="input-text-wrap">

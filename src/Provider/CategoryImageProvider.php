@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brianvarskonst\Nikas\Provider;
 
-use Brianvarskonst\Nikas\Asset\CategoryImageConfigProcessor;
+use Brianvarskonst\Nikas\Asset\AdminConfigProcessor;
 use Brianvarskonst\Nikas\Asset\ConfigProcessorInterface;
 use Brianvarskonst\Nikas\Category\Image\CategoryImageRenderer;
 use Brianvarskonst\Nikas\Category\Image\CategoryImageUrlProvider;
@@ -80,7 +80,7 @@ class CategoryImageProvider extends EarlyBooted
         );
 
         $container->addService(
-            CategoryImageConfigProcessor::class,
+            AdminConfigProcessor::class,
             static function (
                 Container $container
             ) use (
@@ -89,7 +89,7 @@ class CategoryImageProvider extends EarlyBooted
             ): ConfigProcessorInterface {
                 $pageChecker = $container->get(PageChecker::class);
 
-                return new CategoryImageConfigProcessor(
+                return new AdminConfigProcessor(
                     [
                         'version' => get_bloginfo('version'),
                         'placeholder' => $placeholderImage,
@@ -117,7 +117,7 @@ class CategoryImageProvider extends EarlyBooted
             static fn (array $service, Container $container): array =>
                 [
                     ...$service,
-                    $container->get(CategoryImageConfigProcessor::class),
+                    $container->get(AdminConfigProcessor::class),
                 ]
         );
 
