@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brianvarskonst\Nikas\Provider;
 
-use Brianvarskonst\Nikas\Asset\AdminConfigProcessor;
 use Brianvarskonst\Nikas\Asset\ConfigProcessorInterface;
 use Brianvarskonst\Nikas\Asset\GlobalConfigProcessor;
 use Inpsyde\App\Container;
@@ -46,8 +45,8 @@ class AssetProvider extends Booted
                 $webpackManifestLoader = new WebpackManifestLoader();
 
                 $assets = $webpackManifestLoader
-                    ->withDirectoryUrl(get_template_directory_uri() . '/assets/')
-                    ->load(get_template_directory() . '/assets/manifest.json');
+                    ->withDirectoryUrl(get_template_directory_uri() . '/../assets/')
+                    ->load(get_template_directory() . '/../assets/manifest.json');
 
                 $assets = array_map(
                     static function (Asset $asset) use ($configLoaders): Asset {

@@ -28,7 +28,7 @@ App::new(new Container())->boot();
 add_action(
     App::ACTION_ADD_PROVIDERS,
     static function (App $app) {
-        $placeholder = get_template_directory_uri() . '/resources/img/placeholder.png';
+        $placeholder = get_template_directory_uri() . '/../resources/img/placeholder.png';
 
         $app->addProvider(new PackageProvider());
         $app->addProvider(new HelperProvider());
