@@ -7,6 +7,7 @@ namespace Brianvarskonst\Nikas;
 use Brianvarskonst\Nikas\Provider\AssetProvider;
 use Brianvarskonst\Nikas\Provider\BackwardCompatibilityProvider;
 use Brianvarskonst\Nikas\Provider\CategoryImageProvider;
+use Brianvarskonst\Nikas\Provider\CategoryMenuProvider;
 use Brianvarskonst\Nikas\Provider\DisableCoreFunctionalityProvider;
 use Brianvarskonst\Nikas\Provider\HelperProvider;
 use Brianvarskonst\Nikas\Provider\NavigationProvider;
@@ -18,8 +19,8 @@ use Brianvarskonst\Nikas\Provider\ThumbnailProvider;
 use Inpsyde\App\App;
 use Inpsyde\App\Container;
 
-if (is_readable(__DIR__ . '/vendor/autoload.php')) {
-    require __DIR__ . '/vendor/autoload.php';
+if (is_file(dirname(__DIR__) . '/vendor/autoload.php')) {
+    require_once dirname(__DIR__) . '/vendor/autoload.php';
 }
 
 App::new(new Container())->boot();
@@ -27,6 +28,8 @@ App::new(new Container())->boot();
 add_action(
     App::ACTION_ADD_PROVIDERS,
     static function (App $app) {
+        $placeholder = get_template_directory_uri() . '/resources/img/placeholder.png';
+
         $app->addProvider(new PackageProvider());
         $app->addProvider(new HelperProvider());
         $app->addProvider(new BackwardCompatibilityProvider());
@@ -37,10 +40,7 @@ add_action(
         $app->addProvider(new TextdomainProvider());
         $app->addProvider(new NavigationProvider());
         $app->addProvider(new ThumbnailProvider());
-        $app->addProvider(
-            new CategoryImageProvider(
-                get_template_directory_uri() . '/resources/img/placeholder.png'
-            )
-        );
+        $app->addProvider(new CategoryImageProvider($placeholder));
+        $app->addProvider(new CategoryMenuProvider());
     }
 );

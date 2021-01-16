@@ -1,0 +1,23 @@
+.CategoriesMenu {
+    display: grid;
+    // height: 100px;
+    width: 100%;
+    grid-template-columns: 15% 70% 15%; /* 3 x 1 fraction */
+    place-items: center;
+
+    &Title {
+    }
+
+    &Container {
+        display: flex;
+
+        &Item {
+            img {
+
+            }
+        }
+    }
+
+    &ViewAll {
+    }
+}

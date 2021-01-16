@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brianvarskonst\Nikas\Provider;
 
-use Brianvarskonst\Nikas\Asset\CategoryImageConfigProcessor;
+use Brianvarskonst\Nikas\Asset\AdminConfigProcessor;
 use Brianvarskonst\Nikas\Asset\ConfigProcessorInterface;
 use Brianvarskonst\Nikas\Category\Image\CategoryImageRenderer;
 use Brianvarskonst\Nikas\Category\Image\CategoryImageUrlProvider;
@@ -27,7 +27,8 @@ class CategoryImageProvider extends EarlyBooted
     public const SUPPORTED_TAXONOMY = 'category';
 
     public function __construct(private string $placeholder)
-    {}
+    {
+    }
 
     /**
      * @param Container $container
@@ -79,7 +80,7 @@ class CategoryImageProvider extends EarlyBooted
         );
 
         $container->addService(
-            CategoryImageConfigProcessor::class,
+            AdminConfigProcessor::class,
             static function (
                 Container $container
             ) use (
@@ -88,7 +89,7 @@ class CategoryImageProvider extends EarlyBooted
             ): ConfigProcessorInterface {
                 $pageChecker = $container->get(PageChecker::class);
 
-                return new CategoryImageConfigProcessor(
+                return new AdminConfigProcessor(
                     [
                         'version' => get_bloginfo('version'),
                         'placeholder' => $placeholderImage,
@@ -106,7 +107,8 @@ class CategoryImageProvider extends EarlyBooted
             CategoryImageRenderer::class,
             static fn(Container $container) =>
                 new CategoryImageRenderer(
-                    $container->get(CategoryImage::class)
+                    $container->get(CategoryImage::class),
+                    $placeholderImage
                 )
         );
 
@@ -115,7 +117,7 @@ class CategoryImageProvider extends EarlyBooted
             static fn (array $service, Container $container): array =>
                 [
                     ...$service,
-                    $container->get(CategoryImageConfigProcessor::class),
+                    $container->get(AdminConfigProcessor::class),
                 ]
         );
 
@@ -138,7 +140,7 @@ class CategoryImageProvider extends EarlyBooted
             add_action("{$taxonomy}_edit_form_fields", [$taxonomyField, 'edit']);
 
             add_filter("manage_edit-{$taxonomy}_columns", [$taxonomyColumn, 'register']);
-            add_filter("manage_{$taxonomy}_custom_column", [ $taxonomyColumn, 'render'], 10, 3);
+            add_filter("manage_{$taxonomy}_custom_column", [$taxonomyColumn, 'render'], 10, 3);
 
             // If tax is deleted
             add_action("delete_{$taxonomy}", static function ($ttId): void {

@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Brianvarskonst\Nikas\Theme\Feature;
 
-class FeatureRegistry
+class FeatureCollection
 {
+
+    /**
+     * @var Feature[]
+     */
     private array $features;
 
     public function __construct(Feature ...$features)
@@ -27,6 +31,11 @@ class FeatureRegistry
     public function feature(string $title): ?Feature
     {
         return $this->features[$title] ?? null;
+    }
+
+    public function add(Feature $feature): void
+    {
+        $this->features[] = $feature;
     }
 
     public function all(): array

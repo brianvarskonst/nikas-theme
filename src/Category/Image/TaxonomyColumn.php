@@ -13,7 +13,8 @@ class TaxonomyColumn
     public function __construct(
         private CategoryImageUrlProvider $imageProvider,
         private TermMetaManager $categoryImageTermMeta
-    ) {}
+    ) {
+    }
 
     public function register($columns)
     {
@@ -45,7 +46,6 @@ class TaxonomyColumn
         }
     }
 
-
     private function rendeInlineEdit(): string
     {
         ob_start(); ?>
@@ -62,7 +62,7 @@ class TaxonomyColumn
                     </span>
 
                     <span class="input-text-wrap">
-                        <input type="text" name="zci_taxonomy_image" value="" class="tax_list" />
+                        <input type="text" name="category-image" value="" class="tax_list" />
                     </span>
 
                     <span class="input-text-wrap">
