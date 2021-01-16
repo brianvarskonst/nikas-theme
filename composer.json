@@ -10,10 +10,17 @@
             "role": "Developer"
         }
     ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages.local/wp-term-meta"
+        }
+    ],
     "require": {
         "php": "^7.4",
         "inpsyde/assets": "^2.1",
-        "inpsyde/wp-app-container": "^1.2"
+        "inpsyde/wp-app-container": "^1.2",
+        "brianvarskonst/wp-term-meta": "*"
     },
     "require-dev": {
         "inpsyde/php-coding-standards": "1.0.0-RC.1",
@@ -29,6 +36,9 @@
         "cs:cbf": "@php ./vendor/bin/phpcbf"
     },
     "config": {
+        "platform": {
+            "php": "7.4"
+        },
         "sort-packages": true,
         "optimize-autoloader": true
     },

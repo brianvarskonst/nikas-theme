@@ -15,7 +15,7 @@ class ThemeProvider extends RegisteredOnly
     {
         $container->addService(
             ThemeProperties::class,
-            static function(): ThemeProperties {
+            static function (): ThemeProperties {
                 return new ThemeProperties(
                     get_template_directory() . 'resources/languages'
                 );

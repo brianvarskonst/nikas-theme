@@ -15,7 +15,7 @@ class NavigationProvider extends EarlyBooted
     {
         $container->addService(
             Header::class,
-            static function(): NavigationInterface {
+            static function (): NavigationInterface {
                 return new Header();
             }
         );
@@ -26,7 +26,7 @@ class NavigationProvider extends EarlyBooted
     public function boot(Container $container): bool
     {
         $navigations = [
-            $container->get(Header::class)
+            $container->get(Header::class),
         ];
 
         foreach ($navigations as $navigation) {

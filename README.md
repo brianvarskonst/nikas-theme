@@ -1,10 +1,13 @@
 # Nikas WordPress Theme
+
+This is the Repository of the Theme we develop live on [Twitch](https://www.twitch.tv/ghettoexpresso), everybody can use or customize it. 
  
-TODO: Describe what this package is all about
+![Nikas](https://github.com/brianvarskonst/nikas-theme/blob/main/nikas-screendesign-home.png?raw=true "Nikas")
 
 ## Table Of Contents
 
 * [Installation](#installation)
+* [Screendesign](#screendesign)
 * [Usage](#usage)
 * [License](#license)
 * [Contributing](#contributing)
@@ -16,6 +19,10 @@ The best way to use this package is through Composer:
 ```BASH
 $ composer require brianvarskonst/nikas
 ```
+
+## Screendesign
+
+![Nikas Home](https://github.com/brianvarskonst/nikas-theme/blob/main/nikas-screendesign-home.png?raw=true "Nikas Home")
 
 ## Usage
 

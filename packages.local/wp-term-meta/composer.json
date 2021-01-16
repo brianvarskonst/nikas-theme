@@ -1,0 +1,34 @@
+{
+    "name": "brianvarskonst/wp-term-meta",
+    "type": "package",
+    "description": "TODO: Describe what this package is all about",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brianvarskonst",
+            "email": "brianvarskonst@example.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "inpsyde/php-coding-standards": "1.0.0-RC.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Brianvarskonst\\WordPress\\Term\\Meta\\": "src/"
+        }
+    },
+    "scripts": {
+        "cs": "@php ./vendor/bin/phpcs -s",
+        "cs:cbf": "@php ./vendor/bin/phpcbf"
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}
