@@ -1,8 +1,4 @@
-<?php
-
-declare(strict_types=1);
-
-?>
+<?php declare(strict_types=1); ?>
 
 <header class="Header">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,4 +24,4 @@ declare(strict_types=1);
     </nav>
 </header>
 
-<?php get_template_part('parts/header/categories');
+<?php get_template_part('/../parts/header/categories');

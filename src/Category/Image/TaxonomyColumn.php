@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brianvarskonst\Nikas\Category\Image;
 
+use Brianvarskonst\Nikas\TermMeta\CategoryImage;
 use Brianvarskonst\Nikas\TermMeta\CategoryImage as TermMetaManager;
 
 class TaxonomyColumn
@@ -12,7 +13,7 @@ class TaxonomyColumn
 
     public function __construct(
         private CategoryImageUrlProvider $imageProvider,
-        private TermMetaManager $categoryImageTermMeta
+        private CategoryImage $categoryImage
     ) {
     }
 
@@ -29,11 +30,26 @@ class TaxonomyColumn
     public function render($columns, $column, $id)
     {
         if ($column === self::KEY) {
-            $columns = '
-                <span>
-                    <img src="' . $this->imageProvider->provide($id, 'thumbnail') . '" alt="' . __('Thumbnail', 'nikas') . '" class="wp-post-image" />
-                </span>
-            ';
+            ob_start();
+            $categoryImage = $this->categoryImage->get($id, true);
+            $attachmentId = ($categoryImage !== null) ? $categoryImage->attachmentId() : null;
+            ?>
+
+            <span>
+                <img src="<?php echo $this->imageProvider->provide($id, 'thumbnail') ?>"
+                     alt="<?php esc_attr_e('Thumbnail', 'nikas') ?>"
+                     class="wp-post-image"
+                />
+
+                <input
+                    type="hidden"
+                    name="category-image-attachment-id"
+                    class="CategoryImageAttachmentIdTaxonomyListing"
+                    <?php echo $attachmentId !== null ? 'value="' . esc_attr($attachmentId) . '"' : ''; ?>
+                />
+            </span>
+
+            <?php $columns = (string) ob_get_clean();
         }
 
         return $columns;
@@ -64,6 +80,9 @@ class TaxonomyColumn
                     <span class="input-text-wrap">
                         <input type="text" name="category-image" value="" class="tax_list" />
                     </span>
+
+                    <input type="hidden" name="category-image-attachment-id" id="category-image-attachment-id" class="taxListAttachmentId"/>
+                    <br />
 
                     <span class="input-text-wrap">
                         <button class="z_upload_image_button button">

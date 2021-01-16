@@ -1,0 +1,1 @@
+declare var adminCategoryImage: {version: string | null, placeholder: string | null};

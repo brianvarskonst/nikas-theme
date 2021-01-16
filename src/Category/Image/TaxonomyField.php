@@ -67,7 +67,6 @@ class TaxonomyField
 
                 <input type="hidden" name="category-image-attachment-id" id="category-image-attachment-id"
                     <?php echo $id > 0 ? 'value="' . esc_attr($id) . '"' : ''; ?> />
-
                 <br />
 
                 <button class="z_upload_image_button button">

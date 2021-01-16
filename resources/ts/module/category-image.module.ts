@@ -1,8 +1,10 @@
 import {extendDefaults} from "../helper/extend-defaults.helper";
-import {parents} from "../helper/parents.helper";;
+import {parents} from "../helper/parents.helper";
+import ElementObserver from "../components/ElementObserver";
+import {CategoryImageOptions} from "./index";
 
 export default class CategoryImage {
-    private readonly options: object;
+    private readonly options: CategoryImageOptions;
 
     private uploadImageButton?: Element;
     private removeImageButton?: Element;
@@ -21,7 +23,10 @@ export default class CategoryImage {
             attachmentIdInputSelector: 'input[name="category-image-attachment-id"]',
             categoryImageElSelector: '#category-image',
             inlineEditColImageEl: '.inline-edit-col .thumbnail-image img',
-            inlineEditColInputSelector: '.inline-edit-col input[name="category-image"]'
+            inlineEditColInputSelector: '.inline-edit-col input[name="category-image"]',
+            inlineEditColAttachmentIdInputSelector: '.inline-edit-col input[name="category-image-attachment-id"]',
+            taxonomyListingAttachmentIdInputSelector: '.CategoryImageAttachmentIdTaxonomyListing',
+            editCategoryListSelector: '#the-list'
         }
 
         // @ts-ignore
@@ -61,6 +66,36 @@ export default class CategoryImage {
                 this.onCLickEditInline.bind(this)
             );
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const categoryListEl = document.querySelector(this.options.editCategoryListSelector);
+
+            if (categoryListEl !== null) {
+                const categoryListObserver = new ElementObserver(
+                    categoryListEl,
+                    {attributes: false, childList: true, characterData: false, subtree:true},
+                    (mutations: MutationRecord[], observer: MutationObserver) => {
+                        mutations.forEach((mutation: MutationRecord) => {
+                            mutation.addedNodes.forEach((addedNode: Node) => {
+                                // @ts-ignore
+                                const uploadImageButton = addedNode.querySelector(this.options.uploadImageButtonSelector)
+
+                                if (uploadImageButton !== null) {
+                                    uploadImageButton.addEventListener(
+                                        'click',
+                                        // @ts-ignore
+                                        (e) => this.onCLickInlineEditUploadiMageButton(e, addedNode)
+                                    );
+
+                                    return true;
+                                }
+                            })
+                        });
+                    }
+                );
+                categoryListObserver.observe();
+            }
+        });
     }
 
     /**
@@ -78,6 +113,7 @@ export default class CategoryImage {
             return;
         }
 
+        // @ts-ignore
         wpFileUploader = wp.media();
 
         wpFileUploader.on('select', () => {
@@ -89,18 +125,11 @@ export default class CategoryImage {
 
             wpFileUploader.close();
 
-            const imageElement = document.querySelector(this.options.taxonomyImageSelector);
-
+            const imageElement: HTMLImageElement = document.querySelector(this.options.taxonomyImageSelector);
             imageElement.src = attachmentUrl;
 
-            // QuickEdit mode 'tax_list'
-            // if (this.uploadImageButton.parentElement.previousElementSibling.children[0].classList.contains("tax_list")) {
-            //     this.uploadImageButton.parentElement.previousElementSibling.children[0].val = attachmentUrl;
-            //     this.uploadImageButton.parentElement.previousElementSibling.previousElementSibling.children[0].src = attachmentUrl;
-            // }
-
             // Regular Mode
-            let categoryImageInput = document.querySelector(this.options.imageUrlInputSelector);
+            let categoryImageInput: HTMLInputElement = document.querySelector(this.options.imageUrlInputSelector);
 
             categoryImageInput.defaultValue = attachmentUrl;
             categoryImageInput.innerHTML = attachmentUrl;
@@ -112,6 +141,49 @@ export default class CategoryImage {
         wpFileUploader.open();
     }
 
+    public onCLickInlineEditUploadiMageButton(e: Event, element: Element): void
+    {
+        console.log(element);
+
+        let wpFileUploader;
+
+        e.preventDefault();
+
+        if (wpFileUploader) {
+            wpFileUploader.open();
+
+            return;
+        }
+
+        // @ts-ignore
+        wpFileUploader = wp.media();
+
+        wpFileUploader.on('select', () => {
+            // Grab the selected attachment.
+            const attachment = wpFileUploader.state().get('selection').first();
+
+            const attachmentUrl = attachment.attributes.url;
+            const attachmentId = attachment.attributes.id;
+
+            wpFileUploader.close();
+
+            const imageElement: HTMLImageElement = document.querySelector(this.options.taxonomyImageSelector);
+            imageElement.src = attachmentUrl;
+
+            // Regular Mode
+            let categoryImageInput: HTMLInputElement = document.querySelector(this.options.imageUrlInputSelector);
+
+            categoryImageInput.defaultValue = attachmentUrl;
+            categoryImageInput.innerHTML = attachmentUrl;
+
+            const hiddenInputAttachmentId: HTMLInputElement = document.querySelector(this.options.attachmentIdInputSelector);
+            hiddenInputAttachmentId.defaultValue = attachmentId;
+        });
+
+        wpFileUploader.open();
+    }
+
+    // TODO: To Fix
     public onClickRemoveImageButton(): void
     {
         const imageEl: HTMLImageElement = document.querySelector(this.options.taxonomyImageSelector);
@@ -120,9 +192,10 @@ export default class CategoryImage {
         const categoryImageInput: HTMLInputElement = document.querySelector(this.options.categoryImageElSelector);
         categoryImageInput.value = '';
 
-        this.removeImageButton.parent().siblings('.title').children('img').attr('src', this.options.placeholder);
+        // FIX!
+        // this.removeImageButton.parent().siblings('.title').children('img').attr('src', this.options.placeholder);
 
-        const inlineEditColInputEl = document.querySelector(this.options.inlineEditColInputSelector);
+        const inlineEditColInputEl: HTMLInputElement = document.querySelector(this.options.inlineEditColInputSelector);
         inlineEditColInputEl.value = '';
     }
 
@@ -144,11 +217,17 @@ export default class CategoryImage {
         const inlineEditColInputEl: HTMLInputElement = document.querySelector(this.options.inlineEditColInputSelector);
         inlineEditColInputEl.defaultValue = thumb.src;
 
-        // To Do: fix image input url in quick mode
-        /*if (thumb != nikasCategoryImage.placeholder) {
-            $(".inline-edit-col :input[name='zci_taxonomy_image']").val(thumb);
-        } else {
-            $(".inline-edit-col :input[name='zci_taxonomy_image']").val("");
-        }*/
+        const taxonomyListingAttachmentIdEl: HTMLInputElement = taxEl.querySelector(this.options.taxonomyListingAttachmentIdInputSelector);
+
+        if (taxonomyListingAttachmentIdEl.value !== null) {
+            const inlineEditColAttachmentIdEl: HTMLInputElement = document.querySelector(this.options.inlineEditColAttachmentIdInputSelector);
+
+            if (inlineEditColAttachmentIdEl !== null) {
+                const attachmentId: string = taxonomyListingAttachmentIdEl.value;
+
+                inlineEditColAttachmentIdEl.value = attachmentId;
+                inlineEditColAttachmentIdEl.defaultValue = attachmentId;
+            }
+        }
     }
 }

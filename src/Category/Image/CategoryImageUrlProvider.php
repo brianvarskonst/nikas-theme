@@ -12,8 +12,7 @@ class CategoryImageUrlProvider
     public function __construct(
         private CategoryImage $categoryImage,
         private string $placeholderImage
-    ) {
-    }
+    ) {}
 
     public function placeholder(): string
     {

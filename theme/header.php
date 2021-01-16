@@ -23,7 +23,7 @@ declare(strict_types=1); ?>
 
 wp_body_open();
 
-get_template_part('parts/header/header');
+get_template_part('/../parts/header/header');
 
 ?>
 
