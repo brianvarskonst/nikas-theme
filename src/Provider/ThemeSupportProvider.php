@@ -43,16 +43,7 @@ class ThemeSupportProvider extends EarlyBooted
             'after_setup_theme',
             static function () use ($features) {
                 foreach ($features as $feature) {
-                    if (empty($feature->args())) {
-                        add_theme_support($feature->title());
-
-                        continue;
-                    }
-
-                    add_theme_support(
-                        $feature->title(),
-                        $feature->args()
-                    );
+                    add_theme_support($feature->title(), $feature->args());
                 }
             }
         );
