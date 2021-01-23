@@ -1,0 +1,37 @@
+.Header {
+    &Description {
+        font-size: 12px;
+        padding-top: 0.25rem;
+        padding-bottom: 0;
+    }
+
+    .NavbarMain {
+        background: #000000 !important;
+
+        .navbar-brand {
+            margin-right: .5rem;
+        }
+
+        &Nav {
+            .nav-item {
+                .nav-link {
+                    color: #FFF;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+
+        &Actions {
+            .Icon {
+                color: #fff;
+
+                &:hover {
+                    color: #F5F5F7;
+                }
+            }
+        }
+    }
+}

@@ -7,16 +7,16 @@ use Inpsyde\App\App;
 
 $categoriesMenu = App::make(CategoryMenu::class); ?>
 
-<nav class="CategoriesMenu" data-category-menu="true">
-    <div class="CategoriesMenuTitle">
+<nav class="CategoryMenu" data-category-menu="true">
+    <div class="CategoryMenuTitle">
         <?php esc_html_e('Categories', 'nikas'); ?>
     </div>
 
-    <div class="CategoriesMenuContainer">
+    <div class="CategoryMenuContainer">
         <?php echo $categoriesMenu->render(); ?>
     </div>
 
-    <div class="CategoriesMenuViewAll">
+    <div class="CategoryMenuViewAll">
         <?php esc_html_e('View all', 'nikas'); ?>
     </div>
 </nav>

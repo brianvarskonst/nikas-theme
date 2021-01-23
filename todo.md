@@ -1,5 +1,8 @@
 # TODO's
 
+# Design
+- [ ] Header
+
 ## Fix Quick edit Upload file new Category Image
 - [x] Add functionality if quick edit click on upload button
 - [x] Add params to quick edit for category image quick edit view

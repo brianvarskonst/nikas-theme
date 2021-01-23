@@ -25,12 +25,14 @@ class CategoryMenu
             ?>
 
             <div class="CategoryMenuContainerItem">
-                <?php echo wp_kses_post(
-                    $this->categoryImageRenderer->render(
-                        (int) $category->term_id,
-                        'thumbnail'
-                    )
-                ); ?>
+               <div class="CategoryMenuContainerItemInner">
+                   <?php echo wp_kses_post(
+                       $this->categoryImageRenderer->render(
+                           (int) $category->term_id,
+                           'thumbnail'
+                       )
+                   ); ?>
+               </div>
 
                 <span class="CategoryMenuItemTitle">
                     <?php esc_html_e($category->name); ?>

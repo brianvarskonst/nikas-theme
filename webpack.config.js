@@ -22,7 +22,11 @@ Encore
     .enableSourceMaps(!isProduction)
     .disableSingleRuntimeChunk()
     .addPlugin(new DependencyExtractionWebpackPlugin())
-    .splitEntryChunks();
+    .splitEntryChunks()
+    .copyFiles({
+        from: './resources/img',
+        to: 'img/[path][name].[ext]'
+    });
 
 Encore.cleanupOutputBeforeBuild(!isProduction ? ['*.js', '*.css'] : '');
 

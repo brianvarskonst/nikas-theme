@@ -1,0 +1,43 @@
+.CategoryMenu {
+    display: grid;
+    // height: 100px;
+    width: 100%;
+    grid-template-columns: 15% 70% 15%; /* 3 x 1 fraction */
+    place-items: center;
+    background: #FFF;
+
+    &Title {
+    }
+
+    &Container {
+        display: flex;
+
+        &Item {
+            display: block;
+            position: relative;
+
+            &Inner {
+                img {
+                    border-radius: 10px;
+                    height: 90px;
+                    max-width: 280px;
+                    overflow: hidden;
+                }
+            }
+        }
+
+        .CategoryMenuItemTitle {
+            position: absolute;
+            top: 25%;
+            left: 15%;
+            background: rgba(#fff, 0.3);
+            backdrop-filter: blur(5px);
+            border-radius: 10px;
+            padding: 5px 25px;
+            color: #fff;
+        }
+    }
+
+    &ViewAll {
+    }
+}
