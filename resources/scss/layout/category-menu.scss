@@ -2,9 +2,10 @@
     display: grid;
     // height: 100px;
     width: 100%;
-    grid-template-columns: 15% 70% 15%; /* 3 x 1 fraction */
+    grid-template-columns: 12.5% 75% 12.5%; /* 3 x 1 fraction */
     place-items: center;
     background: #FFF;
+    position: relative;
 
     &Title,
     &ViewAll {
@@ -19,6 +20,20 @@
     &ViewAll {
         a {
             color: #212529;
+        }
+    }
+
+    .tns-outer {
+        width: 100%;
+    }
+
+    &Carousel {
+
+        &Controls {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     }
 
@@ -37,12 +52,11 @@
 
             &Inner {
                 width: 100%;
-                padding: 12.5px 0 12.5px 10px;
+                padding: 15px 0 15px 10px;
 
                 img {
                     border-radius: 10px;
                     height: 90px;
-                    max-width: 280px;
                     width: 100%;
                     overflow: hidden;
                     object-fit: cover;

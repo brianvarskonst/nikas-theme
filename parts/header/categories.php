@@ -12,8 +12,17 @@ $categoriesMenu = App::make(CategoryMenu::class); ?>
         <?php esc_html_e('Categories', 'nikas'); ?>
     </div>
 
-    <div class="CategoryMenuContainer CategoryMenuCarousel latte-carousel">
+    <div class="CategoryMenuContainer CategoryMenuCarousel">
         <?php echo $categoriesMenu->render(); ?>
+    </div>
+
+    <div class="CategoryMenuCarouselControls">
+        <button type="button" data-controls="prev">
+            PREV
+        </button>
+        <button type="button" data-controls="next">
+            NEXT
+        </button>
     </div>
 
     <div class="CategoryMenuViewAll">

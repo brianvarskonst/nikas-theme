@@ -11,7 +11,7 @@
     ],
     "dependencies": {
         "bootstrap": "4.4.0",
-        "latte-carousel": "^1.6.1",
+        "tiny-slider": "^2.9.3",
         "ts-deepmerge": "^1.0.8"
     },
     "devDependencies": {

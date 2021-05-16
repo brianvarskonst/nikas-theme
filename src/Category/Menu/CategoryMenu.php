@@ -22,7 +22,7 @@ class CategoryMenu
         ob_start();
 
         foreach ($this->categories as $category) { ?>
-            <div class="CategoryMenuContainerItem latte-item">
+            <div class="CategoryMenuContainerItem">
                 <a href="<?php echo get_term_link($category->term_id) ?>">
                     <div class="CategoryMenuContainerItemInner">
                        <?php echo wp_kses_post(
