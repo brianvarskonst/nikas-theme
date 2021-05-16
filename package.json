@@ -10,7 +10,9 @@
         "Nikas"
     ],
     "dependencies": {
-        "bootstrap": "4.4.0"
+        "bootstrap": "4.4.0",
+        "latte-carousel": "^1.6.1",
+        "ts-deepmerge": "^1.0.8"
     },
     "devDependencies": {
         "@symfony/webpack-encore": "^0.27.0",

@@ -21,22 +21,22 @@ class CategoryMenu
     {
         ob_start();
 
-        foreach ($this->categories as $category) {
-            ?>
+        foreach ($this->categories as $category) { ?>
+            <div class="CategoryMenuContainerItem latte-item">
+                <a href="<?php echo get_term_link($category->term_id) ?>">
+                    <div class="CategoryMenuContainerItemInner">
+                       <?php echo wp_kses_post(
+                           $this->categoryImageRenderer->render(
+                               (int) $category->term_id,
+                               'thumbnail'
+                           )
+                       ); ?>
+                    </div>
 
-            <div class="CategoryMenuContainerItem">
-               <div class="CategoryMenuContainerItemInner">
-                   <?php echo wp_kses_post(
-                       $this->categoryImageRenderer->render(
-                           (int) $category->term_id,
-                           'thumbnail'
-                       )
-                   ); ?>
-               </div>
-
-                <span class="CategoryMenuItemTitle">
-                    <?php esc_html_e($category->name); ?>
-                </span>
+                    <span class="CategoryMenuItemTitle">
+                        <?php esc_html_e($category->name); ?>
+                    </span>
+                </a>
             </div>
 
             <?php

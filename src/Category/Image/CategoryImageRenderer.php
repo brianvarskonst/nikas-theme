@@ -33,24 +33,24 @@ class CategoryImageRenderer
             return $placeholderImage;
         }
 
-        $image_attr = '';
+        $imageAttr = '';
 
         if (!empty($attr['class'])) {
-            $image_attr .= ' class="' . $attr['class'] . '" ';
+            $imageAttr .= ' class="' . $attr['class'] . '" ';
         }
 
         $altText = get_post_meta($categoryImage?->attachmentId(), '_wp_attachment_image_alt', true);
 
         if (!empty($altText)) {
-            $image_attr .= ' alt="' . $altText . '" ';
+            $imageAttr .= ' alt="' . $altText . '" ';
         }
 
-        $image_attr .= ' title="' . get_the_title($categoryImage?->attachmentId()) . '" ';
-        $image_attr .= ' width="' . $attachment->width() . '" ';
-        $image_attr .= ' height="' . $attachment->height() . '" ';
+        $imageAttr .= ' title="' . get_the_title($categoryImage?->attachmentId()) . '" ';
+        $imageAttr .= ' width="' . $attachment->width() . '" ';
+        $imageAttr .= ' height="' . $attachment->height() . '" ';
 
-        $image_attr .= ' loading="auto" ';
+        $imageAttr .= ' loading="auto" ';
 
-        return '<img src="' . $attachment->src() . '" ' . $image_attr . '/>';
+        return '<img src="' . $attachment->src() . '" ' . $imageAttr . '/>';
     }
 }

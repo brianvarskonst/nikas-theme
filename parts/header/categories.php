@@ -12,11 +12,13 @@ $categoriesMenu = App::make(CategoryMenu::class); ?>
         <?php esc_html_e('Categories', 'nikas'); ?>
     </div>
 
-    <div class="CategoryMenuContainer">
+    <div class="CategoryMenuContainer CategoryMenuCarousel latte-carousel">
         <?php echo $categoriesMenu->render(); ?>
     </div>
 
     <div class="CategoryMenuViewAll">
-        <?php esc_html_e('View all', 'nikas'); ?>
+        <a href="#" title="<?php _e('View all Categories', 'nikas') ?>">
+            <?php esc_html_e('View all', 'nikas'); ?>
+        </a>
     </div>
 </nav>

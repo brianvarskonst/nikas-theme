@@ -1,4 +1,4 @@
-import {extendDefaults} from "../helper/extend-defaults.helper";
+import merge from "ts-deepmerge"
 
 export default class CategoryMenu {
     private el: HTMLElement;
@@ -6,18 +6,17 @@ export default class CategoryMenu {
 
     constructor(el, options)
     {
-        const defaults = {};
+        const defaults = {}
 
-        this.el = el || el;
-        // @ts-ignore
-        this.options = extendDefaults(defaults, options);
+        this.el = el || null
+        this.options = merge(defaults, options)
 
         this.init();
     }
 
     public init(): void
     {
-        this.registerEvents();
+        this.registerEvents()
     }
 
     public registerEvents(): void

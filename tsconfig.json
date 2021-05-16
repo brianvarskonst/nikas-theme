@@ -12,7 +12,8 @@
         "jsx": "react",
         "sourceMap": true,
         "noLib": false,
-        "suppressImplicitAnyIndexErrors": true
+        "suppressImplicitAnyIndexErrors": true,
+        "allowSyntheticDefaultImports": true
     },
     "compileOnSave": false,
     "exclude": [

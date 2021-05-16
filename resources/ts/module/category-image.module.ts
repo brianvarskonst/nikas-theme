@@ -1,7 +1,7 @@
-import {extendDefaults} from "../helper/extend-defaults.helper";
 import {parents} from "../helper/parents.helper";
 import ElementObserver from "../components/ElementObserver";
 import {CategoryImageOptions} from "./index";
+import merge from "ts-deepmerge"
 
 export default class CategoryImage {
     private readonly options: CategoryImageOptions;
@@ -29,8 +29,7 @@ export default class CategoryImage {
             editCategoryListSelector: '#the-list'
         }
 
-        // @ts-ignore
-        this.options = extendDefaults(defaults, config);
+        this.options = merge(defaults, config);
 
         this.init();
     }
